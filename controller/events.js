@@ -27,9 +27,11 @@ exports.getDlyEvts = (req, res, next) => {
           // If some error occurs, we throw an error.
           if (error) {
             res.status(200).send("OMG c'est nul" + error)
+            console.log("OMG c'est nul" + error)
           } else {
             // Getting the 'response' from the database and sending it to our route. This is were the data is.
             res.status(200).send(results)
+            console.log(results);
           }
     
           
