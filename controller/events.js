@@ -25,10 +25,14 @@ exports.getDlyEvts = (req, res, next) => {
         // Executing the MySQL query (select all data from the 'users' table).
         connection.query('SELECT * FROM eventstab', function (error, results, fields) {
           // If some error occurs, we throw an error.
-          if (error) throw error;
+          if (error) {
+            res.status(200).send("OMG c'est nul" + error)
+          } else {
+            // Getting the 'response' from the database and sending it to our route. This is were the data is.
+            res.status(200).send(results)
+          }
     
-          // Getting the 'response' from the database and sending it to our route. This is were the data is.
-          res.status(200).send(results)
+          
         });
       });
 };
