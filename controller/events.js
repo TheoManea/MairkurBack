@@ -1,13 +1,21 @@
 const mysql = require('mysql');
 
 // pour se co à la bdd
-const connection = mysql.createPool({
+/*const connection = mysql.createPool({
     host : "mysql57.evxonline.net",
     port : 3306,
     user : "mairkuradmin",
     password : "aE%p8b72",
     database : "mairkurdb"
-  });
+  });*/
+
+const connection = mysql.createPool({
+  host : "mairkuradmin.cqsuwbp2v89w.eu-west-3.rds.amazonaws.com",
+  port : 3306,
+  user : "mairkuradmin",
+  password : "aE%p8b72",
+  database : "ebdb"
+});
 
 exports.getDlyEvts = (req, res, next) => {
     //res.json({message : process.env.DB_PORT});
