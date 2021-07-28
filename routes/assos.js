@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const assosCtrl = require('../controller/assos');
 
-router.use('/', (req, res, next) => {
-    res.send('PAGE NOT FOUND, sorry bro');
-});
+router.get('/', assosCtrl.getAssos);
 
 module.exports = router;

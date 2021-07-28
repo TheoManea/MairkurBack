@@ -1,15 +1,6 @@
 const mysql = require('mysql');
 
 
-/*const connection = mysql.createPool({
-  host : "mairkuradmin.cqsuwbp2v89w.eu-west-3.rds.amazonaws.com",
-  port : 3306,
-  user : "mairkuradmin",
-  password : "aE%p8b72",
-  database : "ebdb"
-});*/
-
-// config la connexions
 const connection = mysql.createPool({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -18,19 +9,19 @@ const connection = mysql.createPool({
   database: process.env.DB_NAME
 });
 
-
-exports.getDlyEvts = (req, res, next) => {
+exports.getAssos = (req, res, next) => {
   // id de l'école sur laquelle recup les infos
   // check si on a toutes les var
   if (!req.body.hasOwnProperty('idSchool')) {
     return res.status(400).send("A parameter is missing");
   }
+  
   idSchool = req.body.idSchool;
   idSchool = connection.escape(idSchool);
 
   // connexion à la base
   connection.getConnection(function (err, connection) {
-    connection.query('( SELECT * FROM eventstab WHERE ( (NOW() BETWEEN dayStartEvent AND dayEndEvent AND dayStartEvent <> dayEndEvent) OR (CURRENT_DATE() = DATE(dayStartEvent)) ) AND idSchool = ' + idSchool + ' ORDER BY DATE(dayStartEvent) ASC, dayStartEvent ASC ) UNION ( SELECT * FROM eventstab WHERE dayStartEvent > NOW() AND idSchool = ' + idSchool + ' ORDER BY DATE(dayStartEvent) ASC, dayStartEvent ASC LIMIT 10 ) ', function (error, results, fields) {
+    connection.query('SELECT * FROM assostab WHERE idSchool=' + idSchool + ' ORDER BY title ASC', function (error, results, fields) {
       // gère les erreurs
       if (error) throw error;
 
