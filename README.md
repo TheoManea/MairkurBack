@@ -13,14 +13,14 @@ fetch('YOUR BACKEND SERVEUR URL HERE', {method: 'GET/POST/WHATEVER', body: {"par
   }
 ```
 
-## lots of Routes
+## Lots of Routes
 
 The beckend is located here :http://mairkurapi.eu-west-3.elasticbeanstalk.com
-You can user different routes :
+You can use different routes :
 ```
-/api/event -> body : idSchool(int) -> get home page events
-/api/assos -> body : isSchool(int) -> get all assos from a school
-/api/auth/login -> body : email(string), password(string) -> get a connection toke
+/api/event (GET)-> body : idSchool(int) -> get home page events
+/api/assos (GET) -> body : isSchool(int) -> get all assos from a school
+/api/auth/login (POST) -> body : email(string), password(string) -> get a connection toke
 ```
 
 ## License
