@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const connection = mysql.createPool({
     host: process.env.DB_HOST,
@@ -15,6 +16,7 @@ const connection = mysql.createPool({
 
 
 exports.login = (req, res, next) => {
+
     // required body param check
     if (!req.body.hasOwnProperty('email') || !req.body.hasOwnProperty('password')) {
         return res.status(400).send("Oh, sh*t ! A parameter is missing right here !");
