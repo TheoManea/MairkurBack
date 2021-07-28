@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const assosCtrl = require('../controller/assos');
+const assosCtrl = require('../controllers/assos');
 
-router.get('/', assosCtrl.getAssos);
+router.get('/:idSchool', assosCtrl.getAssos);
 
 module.exports = router;

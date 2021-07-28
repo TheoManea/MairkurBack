@@ -20,12 +20,14 @@ const connection = mysql.createPool({
 
 
 exports.getDlyEvts = (req, res, next) => {
+
+  console.log("t'es dedans")
   // id de l'école sur laquelle recup les infos
   // check si on a toutes les var
-  if (!req.body.hasOwnProperty('idSchool')) {
+  if (!req.params.hasOwnProperty('idSchool')) {
     return res.status(400).send("A parameter is missing");
   }
-  idSchool = req.body.idSchool;
+  idSchool = req.params.idSchool;
   idSchool = connection.escape(idSchool);
 
   // connexion à la base
