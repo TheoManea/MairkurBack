@@ -10,11 +10,6 @@ const connection = mysql.createPool({
     database: process.env.DB_NAME
 });
 
-/*exports.signup = (req, res, next) => {
-    pass;
-};*/
-
-
 exports.login = (req, res, next) => {
 
     // required body param check
@@ -34,8 +29,7 @@ exports.login = (req, res, next) => {
             if (!results) {
                 return res.status(200).json({error : "user not found"})
             }
-            
-            bcrypt.compare(password, results.password)
+            bcrypt.compare(password, results[0].password)
             .then(valid =>{
                 if (!valid) {
                     return res.status(400).json({error : "wrong password"})
