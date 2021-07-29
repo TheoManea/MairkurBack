@@ -11,6 +11,12 @@ const connection = mysql.createPool({
 
 
 exports.getDlyEvts = (req, res, next) => {
+  // id de l'école sur laquelle recup les infos
+  // check si on a toutes les var
+  if (!req.params.hasOwnProperty('idSchool')) {
+    return res.status(400).send("A parameter is missing");
+  }
+
   idSchool = req.params.idSchool;
   idSchool = connection.escape(idSchool);
 
@@ -30,8 +36,11 @@ exports.getDlyEvts = (req, res, next) => {
 
 // get a specific event by his id
 exports.getSpeEvts = (req, res, next) => {
-  idSchool = req.params.idSchool;
-  idSchool = connection.escape(idSchool);
+  // id de l'école sur laquelle recup les infos
+  // check si on a toutes les var
+  if (!req.params.hasOwnProperty('idEvent')) {
+    return res.status(400).send("A parameter is missing");
+  }
 
   // connexion à la base
   connection.getConnection(function (err, connection) {
