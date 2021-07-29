@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+//const bcrypt = require('bcrypt');
 
 const connection = mysql.createPool({
     host: process.env.DB_HOST,

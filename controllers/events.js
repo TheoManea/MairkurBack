@@ -11,11 +11,6 @@ const connection = mysql.createPool({
 
 
 exports.getDlyEvts = (req, res, next) => {
-  // id de l'école sur laquelle recup les infos
-  // check si on a toutes les var
-  if (!req.params.hasOwnProperty('idSchool')) {
-    return res.status(400).send("A parameter is missing");
-  }
   idSchool = req.params.idSchool;
   idSchool = connection.escape(idSchool);
 
@@ -31,4 +26,23 @@ exports.getDlyEvts = (req, res, next) => {
       connection.release();
     });
   });
+
+  // get a specific event by his id
+  exports.getSpeEvts = (req, res, next) => {
+    idSchool = req.params.idSchool;
+    idSchool = connection.escape(idSchool);
+  
+    // connexion à la base
+    connection.getConnection(function (err, connection) {
+      connection.query('SELECT eventstab.title, eventstab.details, eventstab.dayStartEvent, eventstab.dayEndEvent, eventstab.ImageURL, assostab.title FROM eventstab JOIN assostab ON eventstab.idAssos=assostab.id WHERE eventstab='+ connection.escape(req.params.idEvent), function (error, results, fields) {
+        // gère les erreurs
+        if (error) throw error;
+  
+        // renvoie de la réponse
+        res.status(200).json(results);
+        // ferme la co
+        connection.release();
+      });
+    });
+  };
 };
