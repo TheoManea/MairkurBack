@@ -44,7 +44,7 @@ exports.getSpeEvts = (req, res, next) => {
 
   // connexion à la base
   connection.getConnection(function (err, connection) {
-    connection.query('SELECT eventstab.title, eventstab.details, eventstab.dayStartEvent, eventstab.dayEndEvent, eventstab.ImageURL, assostab.title FROM eventstab JOIN assostab ON eventstab.idAssos=assostab.id WHERE eventstab=' + connection.escape(req.params.idEvent), function (error, results, fields) {
+    connection.query('SELECT eventstab.title, eventstab.details, eventstab.dayStartEvent, eventstab.dayEndEvent, eventstab.ImageURL, assostab.title FROM eventstab JOIN assostab ON eventstab.idAssos=assostab.id WHERE eventstab.id=' + connection.escape(req.params.idEvent), function (error, results, fields) {
       // gère les erreurs
       if (error) throw error;
 
