@@ -1,14 +1,5 @@
 const mysql = require('mysql');
 
-
-/*const connection = mysql.createPool({
-  host : "mairkuradmin.cqsuwbp2v89w.eu-west-3.rds.amazonaws.com",
-  port : 3306,
-  user : "mairkuradmin",
-  password : "aE%p8b72",
-  database : "ebdb"
-});*/
-
 // config la connexions
 const connection = mysql.createPool({
   host: process.env.DB_HOST,

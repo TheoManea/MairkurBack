@@ -17,7 +17,7 @@ app.use((req, res, next) => {
   });
 app.use(bodyParser.json());
 
-//app.use('/api/auth', authRoute)
+app.use('/api/auth', authRoute)
 app.use('/api/events', eventsRoute);
 app.use('/api/assos', assosRoute)
 app.use('*', defaultRoute);
