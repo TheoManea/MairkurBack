@@ -1,13 +1,13 @@
 const express = require('express');
-//const bodyParser = require('body-parser');
-// require('dotenv').config();
+const bodyParser = require('body-parser');
+require('dotenv').config();
 
 const app = express();
 
 const eventsRoute = require('./routes/events');
 const assosRoute = require('./routes/assos');
 const defaultRoute = require('./routes/default');
-const authRoute = require('./routes/user');
+// const authRoute = require('./routes/user');
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -18,8 +18,8 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 // app.use('/api/auth', authRoute)
-// app.use('/api/events', eventsRoute);
-// app.use('/api/assos', assosRoute)
+app.use('/api/events', eventsRoute);
+app.use('/api/assos', assosRoute)
 app.use('*', defaultRoute);
 
 module.exports = app;
