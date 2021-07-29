@@ -22,28 +22,28 @@ exports.login = (req, res, next) => {
 
     // connection to the db
     connection.getConnection(function (err, connection) {
-        connection.query("SELECT id, password FROM accountstab WHERE email="+email, function (error, results, fields) {
+        connection.query("SELECT id, password FROM accountstab WHERE email=" + email, function (error, results, fields) {
             // gère les erreurs
             if (error) throw error;
 
             if (!results) {
-                return res.status(200).json({error : "user not found"})
+                return res.status(200).json({ error: "user not found" })
             }
             bcrypt.compare(password, results[0].password)
-            .then(valid =>{
-                if (!valid) {
-                    return res.status(400).json({error : "wrong password"})
-                }
-                res.status(200).json({
-                    id: results.id,
-                    token: jwt.sign(
-                        {userId: results.id},
-                        process.env.SECRET_TOK
+                .then(valid => {
+                    if (!valid) {
+                        return res.status(400).json({ error: "wrong password" })
+                    }
+                    res.status(200).json({
+                        id: results.id,
+                        token: jwt.sign(
+                            { userId: results.id },
+                            process.env.SECRET_TOK
                         )
+                    })
                 })
-            })
-            .catch(error => res.status(500).json({error}))
-        
+                .catch(error => res.status(500).json({ error }))
+
             // ferme les flux
             connection.release();
         });
