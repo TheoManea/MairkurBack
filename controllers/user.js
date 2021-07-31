@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
-//const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 
 const connection = mysql.createPool({
     host: process.env.DB_HOST,
@@ -29,7 +29,7 @@ exports.login = (req, res, next) => {
             if (!results) {
                 return res.status(200).json({ error: "user not found" })
             }
-            /*bcrypt.compare(password, results[0].password)
+            bcrypt.compare(password, results[0].password)
                 .then(valid => {
                     if (!valid) {
                         return res.status(400).json({ error: "wrong password" })
@@ -43,7 +43,7 @@ exports.login = (req, res, next) => {
                     })
                 })
                 .catch(error => res.status(500).json({ error }))
-*/
+
             // ferme les flux
             connection.release();
         });
