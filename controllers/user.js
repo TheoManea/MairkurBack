@@ -29,7 +29,25 @@ exports.login = (req, res, next) => {
             if (!results) {
                 return res.status(200).json({ error: "user not found" })
             }
-            bcrypt.compare(password, results[0].password)
+            /*bcrypt.compare(password, results[0].password)
+                .then(valid => {
+                    if (!valid) {
+                        return res.status(400).json({ error: "wrong password" })
+                    }
+                    res.status(200).json({
+                        id: results.id,
+                        token: jwt.sign(
+                            { userId: results.id },
+                            process.env.SECRET_TOK
+                        )
+                    })
+                })
+                .catch(error => res.status(500).json({ error }))*/
+
+
+            // test non valide à la prod
+            const a = "$2b$10$LrNKs16v0skzH7nvLrNzU.vTfoRcLOPguUztKFz2em9p6XoxunEqu"
+            bcrypt.compare("coucou", a)
                 .then(valid => {
                     if (!valid) {
                         return res.status(400).json({ error: "wrong password" })
@@ -43,6 +61,7 @@ exports.login = (req, res, next) => {
                     })
                 })
                 .catch(error => res.status(500).json({ error }))
+
 
             // ferme les flux
             connection.release();
