@@ -16,5 +16,7 @@
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1"
   },
-  "engines": { "node" : ">=14" }
+  "engines": {
+    "node": ">=14"
+  }
 }
