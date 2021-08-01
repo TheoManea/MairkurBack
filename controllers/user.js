@@ -18,7 +18,6 @@ exports.login = (req, res, next) => {
     }
 
     var email = connection.escape(req.body.email);
-    var password = req.body.password;
 
     // connection to the db
     connection.getConnection(function (err, connection) {
@@ -26,42 +25,24 @@ exports.login = (req, res, next) => {
             // gère les erreurs
             if (error) throw error;
 
-            if (!results) {
+            if (!results[0].hasOwnProperty('password')) {
                 return res.status(200).json({ error: "user not found" })
             }
-            /*bcrypt.compare(password, results[0].password)
+            console.log(results)
+            bcrypt.compare(req.body.password, results[0].password)
                 .then(valid => {
                     if (!valid) {
                         return res.status(400).json({ error: "wrong password" })
                     }
                     res.status(200).json({
-                        id: results.id,
+                        id: results[0].id,
                         token: jwt.sign(
-                            { userId: results.id },
+                            { userId: results[0].id },
                             process.env.SECRET_TOK
                         )
                     })
                 })
-                .catch(error => res.status(500).json({ error }))*/
-
-
-            // test non valide à la prod
-            const a = "$2b$10$LrNKs16v0skzH7nvLrNzU.vTfoRcLOPguUztKFz2em9p6XoxunEqu"
-            bcrypt.compare("coucou", a)
-                .then(valid => {
-                    if (!valid) {
-                        return res.status(400).json({ error: "wrong password" })
-                    }
-                    res.status(200).json({
-                        id: results.id,
-                        token: jwt.sign(
-                            { userId: results.id },
-                            process.env.SECRET_TOK
-                        )
-                    })
-                })
-                .catch(error => res.status(500).json({ error }))
-
+                .catch(error => res.status(500).json({ error }));
 
             // ferme les flux
             connection.release();
