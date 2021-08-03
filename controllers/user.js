@@ -25,12 +25,14 @@ exports.login = (req, res, next) => {
             // gère les erreurs
             if (error) throw error;
 
-            if (!results[0].hasOwnProperty('password')) {
+            // nobody found
+            if (results.length === 0) {
                 return res.status(200).json({ error: "user not found" })
             }
-            console.log(results)
+            
             bcrypt.compare(req.body.password, results[0].password)
                 .then(valid => {
+                    // invalid password
                     if (!valid) {
                         return res.status(400).json({ error: "wrong password" })
                     }
