@@ -12,6 +12,9 @@ const connection = mysql.createPool({
 
 exports.login = (req, res, next) => {
 
+    console.log(req.body)
+    console.log(req.headers)
+
     // required body param check
     if (!req.body.hasOwnProperty('email') || !req.body.hasOwnProperty('password')) {
         return res.status(400).send("Oh, sh*t ! A parameter is missing right here !");

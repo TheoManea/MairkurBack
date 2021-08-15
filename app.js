@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const app = express();
@@ -15,7 +14,13 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
   });
-app.use(bodyParser.json());
+
+/*app.use(bodyParser.urlencoded({
+  extended: true
+}))
+app.use(bodyParser.json());*/
+app.use(express.urlencoded());
+app.use(express.json());
 
 app.use('/api/auth', authRoute)
 app.use('/api/events', eventsRoute);
