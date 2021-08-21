@@ -1,0 +1,9 @@
+db creator at the first start of the backend, and local storage to remember
+-> it has to test if table are missing before create new
+
+create first data like first account (super admin to admin other account from it)
+
+make a complete doc to explain how to config the backend before pushing it up
+to the server (config the ip adresse of the db server)
+
+adapte the backend not to depend on idSchool, cause it is now local
