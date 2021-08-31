@@ -12,7 +12,7 @@ router.post('/login', userCtrl.login);
 router.post('/create', authMiddle, lvl2oly, userCtrl.create);
 
 // disable for now
-// router.post('/edit', authMiddle, lvl2oly, userCtrl.edit);
-// router.post('/delete', authMiddle, lvl2oly, userCtrl.delete);
+// router.put('/edit', authMiddle, lvl2oly, userCtrl.edit);
+// router.delete('/delete', authMiddle, lvl2oly, userCtrl.delete);
 
 module.exports = router;
