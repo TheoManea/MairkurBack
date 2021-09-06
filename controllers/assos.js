@@ -89,7 +89,7 @@ exports.editAssos = (req, res, next) => {
   });
 };
 
-// delete event
+// delete assos
 exports.deleteAssos = (req, res, next) => {
   // nothing to see here
 
