@@ -6,7 +6,7 @@ The backend is located here :http://mairkurapi.eu-west-3.elasticbeanstalk.com
 You can make request from the front by using
 
 ``` js
-fetch('YOUR BACKEND SERVEUR URL HERE', { method: 'POST OR SOMETHING', headers: {'Content-Type': 'application/json', 'Accept': 'application/json', 'token' :'Bearer current_token'}, body: JSON.stringify({ email: "johncena@gmail.com", password: "i love Chuck Noris" }) })
+fetch('YOUR BACKEND SERVEUR URL HERE', { method: 'POST OR SOMETHING', headers: {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization' :'Bearer current_token'}, body: JSON.stringify({ email: "johncena@gmail.com", password: "i love Chuck Noris" }) })
   .then(response => response.json())
   .then(jsonResponse =>
     // do stuff
@@ -83,12 +83,25 @@ fetch('http://localhost:3000/api/events/details/12', { method: 'GET', headers: {
 ```
 
 To make a POST request, just do this way
+This one is to log in
 ``` js
-  fetch('http://localhost:3000/api/auth/login', { method: 'POST', headers: {'Content-Type': 'application/json', 'Accept': 'application/json', 'variable' :"Kubrick wasn't that good"}, body: JSON.stringify({ email: "michael.bay65@yahoo.com", password: "iSecrEtly_l@v€KuBrick.<3" }) })
+  fetch('http://localhost:3000/api/auth/login', { method: 'POST', headers: {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer the_token'}, body: JSON.stringify({ email: "michael.bay65@yahoo.com", password: "iSecrEtly_l@v€KuBrick.<3" }) })
   .then(response => response.json())
   .then(jsonResponse =>
     {
       console.log("Well what ?")
+      console.log(JSON.stringify(jsonResponse))
+    }
+  );
+```
+
+This one is to access to admin routers
+``` js
+  fetch('http://localhost:3000/api/events/manage', { method: 'POST', headers: {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer the_token', 'variable' :"Kubrick wasn't that good"}, body: JSON.stringify({ stuff: "thanks", train: "Thomas" }) })
+  .then(response => response.json())
+  .then(jsonResponse =>
+    {
+      console.log("I lick rocks, it tastes like cherry")
       console.log(JSON.stringify(jsonResponse))
     }
   );

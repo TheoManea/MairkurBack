@@ -10,7 +10,7 @@ a function to create a user without sending him an email (cause it's the super a
 make a complete doc to explain how to config the backend before pushing it up
 to the server (config the ip adresse of the db server)
 
-adapte the backend not to depend on idSchool, cause it is now local
+adapte the backend not to depend on idSchool, cause it is now local -> auth, controller.events.getDlyEvts, controllerassos.getAssos
 
 
 

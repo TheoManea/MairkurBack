@@ -3,4 +3,5 @@ module.exports = (req, res, next) => {
     if (req.levelAccess !== 2) {
         return res.status(400).send("Access denied, sorry bro");
     }
+    next();
 };
