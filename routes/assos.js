@@ -18,6 +18,6 @@ router.put('/edit', authMiddle, lvl2oly, assosCtrl.editAssos);
 // delete an assos
 router.delete('/delete', authMiddle, lvl2oly, assosCtrl.deleteAssos);
 // get the assos of the admin management panel
-router.get('/manage', authMiddle, lvl2oly, assosCtrl.getAdminAssos)
+router.post('/manage', authMiddle, lvl2oly, assosCtrl.getAdminAssos)
 
 module.exports = router;

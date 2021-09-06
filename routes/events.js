@@ -18,6 +18,6 @@ router.put('/edit', authMiddle, eventsCtrl.editEvts);
 // delete an event
 router.delete('/delete', authMiddle, eventsCtrl.deleteEvts);
 // get the event of the admin management panel
-router.get('/manage', authMiddle, eventsCtrl.getAdminEvts);
+router.post('/manage', authMiddle, eventsCtrl.getAdminEvts);
 
 module.exports = router;
