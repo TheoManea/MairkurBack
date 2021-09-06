@@ -48,7 +48,7 @@ api
       
   /auth
     /login 
-      |[POST :email :string // POST :password :string] --> if successful, return a auth token
+      |[POST :email :string // POST :password :string] --> if successful, return a auth token, name, family name and idUser
     /create ~> admin router (lvl 2 min)
       |[POST :name :string // POST :familyName :string // POST :levelAccess :int // POST :email :string] --> create a new user with the provided levelAccess
     /edit ~> admin router (lvl 2 min) [NOT ABLE YET]

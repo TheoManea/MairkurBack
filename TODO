@@ -18,3 +18,12 @@ adapte the backend not to depend on idSchool, cause it is now local
 
 ==
 images are supported yet in events management ... :/
+
+
+
+JULIEN's discuss :
+lvl 2 are able to create account, with just the email, (name, family name). Then Node JS will
+send a email to the trouducu. --> do a smtp server ...
+
+lvl 2 are able to delete, edit lvl 1 or 2 accounts (lvl access, idAssos)
+But nobody can edit perso info exept the one who own the account

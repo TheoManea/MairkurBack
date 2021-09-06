@@ -22,7 +22,7 @@ exports.login = (req, res, next) => {
 
     // connection to the db
     connection.getConnection(function (err, connection) {
-        connection.query("SELECT id, password FROM accountstab WHERE email=" + email, function (error, results, fields) {
+        connection.query("SELECT id, password, name, familyName FROM accountstab WHERE email=" + email, function (error, results, fields) {
             // gère les erreurs
             if (error) throw error;
 
@@ -40,6 +40,8 @@ exports.login = (req, res, next) => {
                     }
                     res.status(200).json({
                         id: results[0].id,
+                        name: results[0].name,
+                        familyName: results[0].familyName,
                         token: jwt.sign(
                             { userId: results[0].id },
                             process.env.SECRET_TOK
