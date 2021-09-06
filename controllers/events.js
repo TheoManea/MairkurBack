@@ -116,6 +116,7 @@ function verifyAccessUser(idEvent, idUser) {
 // edit event
 exports.editEvts = (req, res, next) => {
   // params missing
+  // req.body.id is the idEvent
   if (!req.body.hasOwnProperty('title') || !req.body.hasOwnProperty('details') || !req.body.hasOwnProperty('id') ||
     !req.body.hasOwnProperty('dayStartEvent') || !req.body.hasOwnProperty('dayEndEvent')) {
     return res.status(400).send("Oh god ! Something went wrong ..");
