@@ -13,7 +13,7 @@ const connection = mysql.createPool({
 exports.getAssos = (req, res, next) => {
   // connexion à la base
   connection.getConnection(function (err, connection) {
-    connection.query('SELECT title FROM assostab ORDER BY title ASC', function (error, results, fields) {
+    connection.query('SELECT id, title, details FROM assostab ORDER BY title ASC', function (error, results, fields) {
       // gère les erreurs
       if (error) throw error;
 
