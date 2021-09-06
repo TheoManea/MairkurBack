@@ -20,7 +20,7 @@ From the root :
 api
   /events
     /home
-      /[GET :idSchool :int] --> get all homepage's events
+      |--> get all homepage's events
     /details
       /[GET :idEvent :int] --> get all infos about this event
     /create ~> admin router
@@ -34,7 +34,7 @@ api
 
   /assos
     /home
-      /[GET :idSchool :int] --> get all assos associate with this school
+      |--> get all assos associate with this school
     /details
       /[GET :idEvent :int] --> get all infos about this assos
     /create ~> admin router
