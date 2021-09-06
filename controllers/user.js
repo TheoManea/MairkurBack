@@ -22,7 +22,7 @@ exports.login = (req, res, next) => {
 
     // connection to the db
     connection.getConnection(function (err, connection) {
-        connection.query("SELECT id, password, name, familyName FROM accountstab WHERE email=" + email, function (error, results, fields) {
+        connection.query("SELECT id, password, name, familyName, levelAccess FROM accountstab WHERE email=" + email, function (error, results, fields) {
             // gère les erreurs
             if (error) throw error;
 
@@ -42,6 +42,7 @@ exports.login = (req, res, next) => {
                         id: results[0].id,
                         name: results[0].name,
                         familyName: results[0].familyName,
+                        levelAccess: results[0].levelAccess,
                         token: jwt.sign(
                             { userId: results[0].id },
                             process.env.SECRET_TOK
