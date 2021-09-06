@@ -7,7 +7,7 @@ const authMiddle = require('../middleware/auth');
 const lvl2oly = require('../middleware/level2Only');
 
 // lambda user
-router.get('/home/:idSchool', assosCtrl.getAssos);
+router.get('/home', assosCtrl.getAssos);
 router.get('/details/:idAssos', assosCtrl.getSpeAssos);
 
 // admin user

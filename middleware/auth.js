@@ -31,7 +31,6 @@ module.exports = (req, res, next) => {
                     if (results[0].idAssos) {
                         req.userIdAssos = parseInt(results[0].idAssos);
                     }
-                    req.idSchool = parseInt(results[0].idSchool);
 
                     // ferme la co
                     connection.release();

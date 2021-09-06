@@ -12,18 +12,9 @@ const connection = mysql.createPool({
 
 // get user's home page events
 exports.getDlyEvts = (req, res, next) => {
-  // id de l'école sur laquelle recup les infos
-  // check si on a toutes les var
-  if (!req.params.hasOwnProperty('idSchool')) {
-    return res.status(400).send("A parameter is missing");
-  }
-
-  idSchool = req.params.idSchool;
-  idSchool = connection.escape(idSchool);
-
   // connexion à la base
   connection.getConnection(function (err, connection) {
-    connection.query('( SELECT * FROM eventstab WHERE ( (NOW() BETWEEN dayStartEvent AND dayEndEvent AND dayStartEvent <> dayEndEvent) OR (CURRENT_DATE() = DATE(dayStartEvent)) ) AND idSchool = ' + idSchool + ' ORDER BY DATE(dayStartEvent) ASC, dayStartEvent ASC ) UNION ( SELECT * FROM eventstab WHERE dayStartEvent > NOW() AND idSchool = ' + idSchool + ' ORDER BY DATE(dayStartEvent) ASC, dayStartEvent ASC LIMIT 10 ) ', function (error, results, fields) {
+    connection.query('( SELECT * FROM eventstab WHERE ( (NOW() BETWEEN dayStartEvent AND dayEndEvent AND dayStartEvent <> dayEndEvent) OR (CURRENT_DATE() = DATE(dayStartEvent)) ) ORDER BY DATE(dayStartEvent) ASC, dayStartEvent ASC ) UNION ( SELECT * FROM eventstab WHERE dayStartEvent > NOW() ORDER BY DATE(dayStartEvent) ASC, dayStartEvent ASC LIMIT 10 ) ', function (error, results, fields) {
       // gère les erreurs
       if (error) throw error;
 

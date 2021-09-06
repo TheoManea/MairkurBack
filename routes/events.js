@@ -6,7 +6,7 @@ const authMiddle = require('../middleware/auth');
 
 /// lamdba users routers
 // get events for the userhome page
-router.get('/home/:idSchool', eventsCtrl.getDlyEvts);
+router.get('/home', eventsCtrl.getDlyEvts);
 // get a specific event
 router.get('/details/:idEvent', eventsCtrl.getSpeEvts);
 

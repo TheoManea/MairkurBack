@@ -11,18 +11,9 @@ const connection = mysql.createPool({
 
 // get labda user's home page
 exports.getAssos = (req, res, next) => {
-  // id de l'école sur laquelle recup les infos
-  // check si on a toutes les var
-  if (!req.params.hasOwnProperty('idSchool')) {
-    return res.status(400).send("A parameter is missing");
-  }
-
-  idSchool = req.params.idSchool;
-  idSchool = connection.escape(idSchool);
-
   // connexion à la base
   connection.getConnection(function (err, connection) {
-    connection.query('SELECT title FROM assostab WHERE idSchool=' + idSchool + ' ORDER BY title ASC', function (error, results, fields) {
+    connection.query('SELECT title FROM assostab ORDER BY title ASC', function (error, results, fields) {
       // gère les erreurs
       if (error) throw error;
 
