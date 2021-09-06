@@ -185,7 +185,7 @@ function freeRequestEvts(conn, request) {
 // get admin's management page
 exports.getAdminEvts = (req, res, next) => {
   // what's going on here ?
-  var request = 'SELECT title, details, dayStartEvent, dayEndEvent, dayCreation, ImageURL FROM eventstab' + (req.levelAccess !== 2 ? ' WHERE idAssos=' + req.userIdAssos : '')
+  var request = 'SELECT id, title, details, dayStartEvent, dayEndEvent, dayCreation, ImageURL FROM eventstab' + (req.levelAccess !== 2 ? ' WHERE idAssos=' + req.userIdAssos : '')
 
   // connexion à la base
   connection.getConnection(function (err, connection) {
