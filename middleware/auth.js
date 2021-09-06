@@ -17,7 +17,7 @@ module.exports = (req, res, next) => {
         const decodedToken = jwt.verify(token, process.env.SECRET_TOK);
         const userId = decodedToken.userId;
         // if userId from the headers and from the body are different
-        if (req.body.userId && req.body.userId !== userId) {
+        if (!req.body.hasOwnProperty("userId") || parseInt(req.body.userId) !== userId) {
             throw 'Who are you ?';
         } else {
             // otherwise, let's take the lvlAccess from the db
@@ -27,16 +27,19 @@ module.exports = (req, res, next) => {
                     if (error) throw error;
 
                     // next with parameter
-                    req.levelAccess = results[0].levelAccess;
+                    req.levelAccess = parseInt(results[0].levelAccess);
+                    console.log("level access :" + req.levelAccess);
                     if (results[0].idAssos) {
-                        req.userIdAssos = results[0].idAssos;
+                        req.userIdAssos = parseInt(results[0].idAssos);
                     }
-                    req.idSchool = results[0].idSchool;
-                    next();
+                    req.idSchool = parseInt(results[0].idSchool);
+
                     // ferme la co
                     connection.release();
+
+                    next();
                 })
-            })
+            });
         }
     } catch {
         res.status(401).json({
