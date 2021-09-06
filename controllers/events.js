@@ -156,7 +156,7 @@ exports.deleteEvts = (req, res, next) => {
   // good, you have passed every challenges
   // check if the user has the permission to delete this event
   connection.getConnection(function (err, connection) {
-    const deleteRequest = 'DELETE FROM eventstab WHERE id=' + req.body.id;
+    const deleteRequest = 'DELETE FROM eventstab WHERE id=' + connection.escape(req.body.id);
 
     // first, let's verify if the delete of this event is reachable from the user (ex : lvl1 from an other assos)
     if (levelAccess === 2 || (req.levelAccess === 1 && verifyAccessUser(req.body.id, req.body.userId))) {
