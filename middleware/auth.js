@@ -28,7 +28,6 @@ module.exports = (req, res, next) => {
 
                     // next with parameter
                     req.levelAccess = parseInt(results[0].levelAccess);
-                    console.log("level access :" + req.levelAccess);
                     if (results[0].idAssos) {
                         req.userIdAssos = parseInt(results[0].idAssos);
                     }

@@ -131,11 +131,11 @@ exports.editEvts = (req, res, next) => {
 
   // good, you have passed every challenges
   connection.getConnection(function (err, connection) {
-    const updateRequest = 'UPDATE eventstab SET title=' + req.body.title + ', details=' + req.body.details + ', idAssos=' + req.userIdAssos + ', dayStartEvent=' + req.body.dayStartEvent + ', dayEndEvent=' + req.body.dayEndEvent + ' WHERE id=' + req.body.id
+    const updateRequest = 'UPDATE eventstab SET title=' + connection.escape(req.body.title) + ', details=' + connection.escape(req.body.details) + ', idAssos=' + connection.escape(req.userIdAssos) + ', dayStartEvent=' + connection.escape(req.body.dayStartEvent) + ', dayEndEvent=' + connection.escape(req.body.dayEndEvent) + ' WHERE id=' + connection.escape(req.body.id)
 
     // first, let's verify if the edit of this event is reachable from the user (ex : lvl1 from an other assos)
-    if (levelAccess === 2 || (req.levelAccess === 1 && verifyAccessUser(req.body.id, req.body.userId))) {
-      freeRequestEvts(connection, updateRequest);
+    if (req.levelAccess === 2 || (req.levelAccess === 1 && verifyAccessUser(req.body.id, req.body.userId))) {
+      res.status(200).json(freeRequestEvts(connection, updateRequest));
     } else {
       // level 1 without access
       res.status(400).send("Access denied");
@@ -175,11 +175,11 @@ function freeRequestEvts(conn, request) {
     // gère les erreurs
     if (error) throw error;
 
-    // renvoie de la réponse
-    res.status(200).json({ results: "success" });
     // ferme la co
     conn.release();
   });
+  // renvoie de la réponse
+  return { results: "success" };
 };
 
 // get admin's management page
