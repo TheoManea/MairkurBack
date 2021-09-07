@@ -62,7 +62,7 @@ exports.create = (req, res, next) => {
     // params missing or try to create a lvl1 without giving him an assos
     // req.body.levelAccess : levelAccess provide by the user
     // req.levelAccess : levelAccess of the current user
-    
+
     if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('familyName') || !req.body.hasOwnProperty('levelAccess') ||
         !req.body.hasOwnProperty('email') || (req.body.levelAccess !== 2 && !req.body.hasOwnProperty('idAssos'))) {
         return res.status(400).send("Oh god ! Something went wrong ..");
@@ -81,7 +81,7 @@ exports.create = (req, res, next) => {
 
     // add it on the data base
     connection.getConnection(function (err, connection) {
-        connection.query('INSERT INTO accountstab(name, familyName, levelAccess, idAssos, email) VALUES ('+req.body.name+','+req.body.familyName+','+req.body.levelAccess+','+idAssosAssign+','+req.body.email+')', function (error, results, fields) {
+        connection.query('INSERT INTO accountstab(name, familyName, levelAccess, idAssos, email) VALUES (' + connection.escape(req.body.name) + ',' + connection.escape(req.body.familyName) + ',' + connection.escape(req.body.levelAccess) + ',' + connection.escape(idAssosAssign) + ',' + connection.escape(req.body.email) + ')', function (error, results, fields) {
             // gère les erreurs
             if (error) throw error;
 
@@ -99,12 +99,11 @@ exports.create = (req, res, next) => {
 
 //* edit user router
 exports.edit = (req, res, next) => {
-    // be carful : this router is middlewared by lvl2only so ... can edit his own lvl 1 account :/ -> find a sol
     /* 
     his account (lvl 1 or 2): `name`, `familyName`, `password`, `email` -> connect to the new email /!\
     others account (lvl 2):  `levelAccess`, `idAssos`, `email` ~~> think again about all rights of a lvl 2
     */
-   
+
     // params missing
     if (!req.body.hasOwnProperty('title') || !req.body.hasOwnProperty('details') || !req.body.hasOwnProperty('id')) {
         return res.status(400).send("Oh god ! Something went wrong ..");
@@ -112,7 +111,32 @@ exports.edit = (req, res, next) => {
 
     // good, you have passed every challenges
     connection.getConnection(function (err, connection) {
-        connection.query('UPDATE assostab SET title=' + req.body.title + ', details=' + req.body.details + ' WHERE id=' + req.body.id, function (error, results, fields) {
+        connection.query('UPDATE assostab SET title=' + connection.escape(req.body.title) + ', details=' + connection.escape(req.body.details) + ' WHERE id=' + connection.escape(req.body.id), function (error, results, fields) {
+            // gère les erreurs
+            if (error) throw error;
+
+            // renvoie de la réponse
+            res.status(200).json({ results: "success" });
+            // ferme la co
+            connection.release();
+        });
+    });
+};
+
+//* own edit profile router
+exports.ownEdit = (req, res, next) => {
+    //No params is missing
+    // if you change your email, we will send you a verif email before changing it
+    // so to speak the new email is effective when it has been verified
+    // params missing
+    if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('familyName') || !req.body.hasOwnProperty('password') ||
+        !req.body.hasOwnProperty('email')) {
+        return res.status(400).send("Oh god ! Something went wrong ..");
+    }
+
+    // good, you have passed every challenges
+    connection.getConnection(function (err, connection) {
+        connection.query('UPDATE assostab SET title=' + connection.escape(req.body.title) + ', details=' + connection.escape(req.body.details) + ' WHERE id=' + connection.escape(req.body.id), function (error, results, fields) {
             // gère les erreurs
             if (error) throw error;
 
@@ -133,7 +157,7 @@ exports.delete = (req, res, next) => {
 
     connection.getConnection(function (err, connection) {
         // avoid deleting the super admin
-        connection.query('DELETE FROM eventstab WHERE id<>1 AND id=' + req.body.id, function (error, results, fields) {
+        connection.query('DELETE FROM eventstab WHERE id<>1 AND id=' + connection.escape(req.body.id), function (error, results, fields) {
             // gère les erreurs
             if (error) throw error;
 
@@ -144,3 +168,19 @@ exports.delete = (req, res, next) => {
         });
     });
 };
+
+// get all users
+exports.getAdminUsers = (req, res, next) => {
+    connection.getConnection(function (err, connection) {
+        // `id`, `name`, `familyName`, `password`, `levelAccess`, `idAssos`, `idSchool`, `email`
+        connection.query('SELECT id, name, familyName, levelAccess, idAssos, email FROM accountstab', function (error, results, fields) {
+            // gère les erreurs
+            if (error) throw error;
+
+            // renvoie de la réponse
+            res.status(200).json(results);
+            // ferme la co
+            connection.release();
+        });
+    });
+}

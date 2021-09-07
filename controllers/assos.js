@@ -35,7 +35,7 @@ exports.getSpeAssos = (req, res, next) => {
 
   // connexion à la base
   connection.getConnection(function (err, connection) {
-    connection.query('SELECT title, details FROM assostab WHERE id=' + connection.escape(req.params.idAssos), function (error, results, fields) {
+    connection.query('SELECT id, title, details FROM assostab WHERE id=' + connection.escape(req.params.idAssos), function (error, results, fields) {
       // gère les erreurs
       if (error) throw error;
 
@@ -56,7 +56,7 @@ exports.createAssos = (req, res, next) => {
 
   // good, you have passed every challenges
   connection.getConnection(function (err, connection) {
-    connection.query('INSERT INTO assostab (title, details) VALUES (' + req.body.title + ', ' + req.body.details + ')', function (error, results, fields) {
+    connection.query('INSERT INTO assostab (title, details) VALUES (' + connection.escape(req.body.title) + ', ' + connection.escape(req.body.details) + ')', function (error, results, fields) {
       // gère les erreurs
       if (error) throw error;
 
@@ -77,7 +77,7 @@ exports.editAssos = (req, res, next) => {
 
   // good, you have passed every challenges
   connection.getConnection(function (err, connection) {
-    connection.query('UPDATE assostab SET title=' + req.body.title + ', details=' + req.body.details + ' WHERE id=' + req.body.id, function (error, results, fields) {
+    connection.query('UPDATE assostab SET title=' + connection.escape(req.body.title) + ', details=' + connection.escape(req.body.details) + ' WHERE id=' + connection.escape(req.body.id), function (error, results, fields) {
       // gère les erreurs
       if (error) throw error;
 
@@ -101,7 +101,7 @@ exports.deleteAssos = (req, res, next) => {
   // good, you have passed every challenges
   // check if the user has the permission to delete this event
   connection.getConnection(function (err, connection) {
-    connection.query('DELETE FROM eventstab WHERE id=' + req.body.id, function (error, results, fields) {
+    connection.query('DELETE FROM assostab WHERE id=' + connection.escape(req.body.id), function (error, results, fields) {
       // gère les erreurs
       if (error) throw error;
 
@@ -119,7 +119,7 @@ exports.getAdminAssos = (req, res, next) => {
 
   // connexion à la base
   connection.getConnection(function (err, connection) {
-    connection.query('SELECT title, details FROM assostab', function (error, results, fields) {
+    connection.query('SELECT id, title, details FROM assostab', function (error, results, fields) {
       // gère les erreurs
       if (error) throw error;
 

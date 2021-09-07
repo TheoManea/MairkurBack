@@ -24,7 +24,7 @@ api
     /details
       /[GET :idEvent :int] --> get all infos about this event
     /create ~> admin router
-      |[POST :title :string // POST :details :string // POST :dayCreation :string // POST :dayStartEvent :string // POST :dayEndEvent :string // lvl2:(POST :idAssos :int)] --> create an event
+      |[POST :title :string // POST :details :string // POST :dayStartEvent :string // POST :dayEndEvent :string // lvl2:(POST :idAssos :int)] --> create an event
     /edit ~> admin router
       |[POST :title :string // POST :details :string // POST :id :int // POST :dayStartEvent :string // POST :dayEndEvent :string // lvl2:(POST :idAssos :int)] --> edit specific event according to the id provided
     /delete ~> admin router

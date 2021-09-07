@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const { param } = require('../routes/events');
+const moment = require('moment-timezone');
 
 // config la connexions
 const connection = mysql.createPool({
@@ -36,7 +37,7 @@ exports.getSpeEvts = (req, res, next) => {
 
   // connexion à la base
   connection.getConnection(function (err, connection) {
-    connection.query('SELECT eventstab.title, eventstab.details, eventstab.dayStartEvent, eventstab.dayEndEvent, eventstab.ImageURL, assostab.title FROM eventstab JOIN assostab ON eventstab.idAssos=assostab.id WHERE eventstab.id=' + connection.escape(req.params.idEvent), function (error, results, fields) {
+    connection.query('SELECT eventstab.id, eventstab.title, eventstab.details, eventstab.dayStartEvent, eventstab.dayEndEvent, eventstab.ImageURL, assostab.title FROM eventstab JOIN assostab ON eventstab.idAssos=assostab.id WHERE eventstab.id=' + connection.escape(req.params.idEvent), function (error, results, fields) {
       // gère les erreurs
       if (error) throw error;
 
@@ -50,8 +51,9 @@ exports.getSpeEvts = (req, res, next) => {
 
 // create event
 exports.createEvts = (req, res, next) => {
+
   // params missing
-  if (!req.body.hasOwnProperty('title') || !req.body.hasOwnProperty('details') || !req.body.hasOwnProperty('dayCreation') ||
+  if (!req.body.hasOwnProperty('title') || !req.body.hasOwnProperty('details') ||
     !req.body.hasOwnProperty('dayStartEvent') || !req.body.hasOwnProperty('dayEndEvent')) {
     return res.status(400).send("Oh god ! Something went wrong ..");
   }
@@ -69,8 +71,9 @@ exports.createEvts = (req, res, next) => {
   connection.getConnection(function (err, connection) {
     // build the '?,?,?,?,?,?,?,?' automatically
     let completeRequest = "";
-    const paramsList = [req.body.title, req.body.details, req.body.userId, req.userIdAssos, req.body.dayCreation, req.body.dayStartEvent, req.body.dayEndEvent];
-    paramsList.forEach(item => completeRequest += item + ',');
+    date.locale(fr);
+    const paramsList = [req.body.title, req.body.details, req.body.userId, req.userIdAssos, moment().format('YYYY-MM-DD HH:mm:ss'), moment(req.body.dayStartEvent).format('YYYY-MM-DD HH:mm:ss'), moment(req.body.dayEndEvent).format('YYYY-MM-DD HH:mm:ss')];
+    paramsList.forEach(item => completeRequest += connection.escape(item) + ',');
     // remove the ',' at the end
     completeRequest = completeRequest.substring(0, completeRequest.length - 1)
 
@@ -122,7 +125,7 @@ exports.editEvts = (req, res, next) => {
 
   // good, you have passed every challenges
   connection.getConnection(function (err, connection) {
-    const updateRequest = 'UPDATE eventstab SET title=' + connection.escape(req.body.title) + ', details=' + connection.escape(req.body.details) + ', idAssos=' + connection.escape(req.userIdAssos) + ', dayStartEvent=' + connection.escape(req.body.dayStartEvent) + ', dayEndEvent=' + connection.escape(req.body.dayEndEvent) + ' WHERE id=' + connection.escape(req.body.id)
+    const updateRequest = 'UPDATE eventstab SET title=' + connection.escape(req.body.title) + ', details=' + connection.escape(req.body.details) + ', idAssos=' + connection.escape(req.userIdAssos) + ', dayStartEvent=' + connection.escape(moment(req.body.dayStartEvent).format('YYYY-MM-DD HH:mm:ss')) + ', dayEndEvent=' + connection.escape(moment(req.body.dayEndEvent).format('YYYY-MM-DD HH:mm:ss')) + ' WHERE id=' + connection.escape(req.body.id)
 
     // first, let's verify if the edit of this event is reachable from the user (ex : lvl1 from an other assos)
     if (req.levelAccess === 2 || (req.levelAccess === 1 && verifyAccessUser(req.body.id, req.body.userId))) {
@@ -145,14 +148,14 @@ exports.deleteEvts = (req, res, next) => {
   }
 
   // good, you have passed every challenges
-  // check if the user has the permission to delete this event
   connection.getConnection(function (err, connection) {
     const deleteRequest = 'DELETE FROM eventstab WHERE id=' + connection.escape(req.body.id);
 
     // first, let's verify if the delete of this event is reachable from the user (ex : lvl1 from an other assos)
-    if (levelAccess === 2 || (req.levelAccess === 1 && verifyAccessUser(req.body.id, req.body.userId))) {
-      freeRequestEvts(connection, deleteRequest);
+    if (req.levelAccess === 2 || (req.levelAccess === 1 && verifyAccessUser(req.body.id, req.body.userId))) {
+      res.status(200).json(freeRequestEvts(connection, deleteRequest));
     } else {
+      console.log("oh god");
       // level 1 without access
       res.status(400).send("Access denied");
       connection.release();
@@ -160,7 +163,7 @@ exports.deleteEvts = (req, res, next) => {
   });
 };
 
-// delete event without any control
+// modify event without any control
 function freeRequestEvts(conn, request) {
   conn.query(request, function (error, results, fields) {
     // gère les erreurs
@@ -183,6 +186,12 @@ exports.getAdminEvts = (req, res, next) => {
     connection.query(request, function (error, results, fields) {
       // gère les erreurs
       if (error) throw error;
+
+      results.forEach(event => {
+        event.dayStartEvent = moment(event.dayStartEvent).format('YYYY-MM-DD HH:mm:ss');
+        event.dayEndEvent = moment(event.dayEndEvent).format('YYYY-MM-DD HH:mm:ss');
+        event.dayCreation = moment(event.dayCreation).format('YYYY-MM-DD HH:mm:ss');
+      })
 
       // renvoie de la réponse
       res.status(200).json(results);

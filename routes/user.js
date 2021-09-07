@@ -9,10 +9,20 @@ const lvl2oly = require('../middleware/level2Only');
 router.post('/login', userCtrl.login);
 
 // admin routers
-router.post('/create', authMiddle, lvl2oly, userCtrl.create);
-
 // disable for now
+// create user
+// router.post('/create', authMiddle, lvl2oly, userCtrl.create);
+
+// edit user
 // router.put('/edit', authMiddle, lvl2oly, userCtrl.edit);
-// router.delete('/delete', authMiddle, lvl2oly, userCtrl.delete);
+
+// edit own profile
+// router.put('/ownedit', authMiddle, userCtrl.ownEdit);
+
+// delete user
+router.delete('/delete', authMiddle, lvl2oly, userCtrl.delete);
+
+// get all users
+router.post('/manage', authMiddle, lvl2oly, userCtrl.getAdminUsers);
 
 module.exports = router;

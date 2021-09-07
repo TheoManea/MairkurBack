@@ -11,9 +11,10 @@ make a complete doc to explain how to config the backend before pushing it up
 to the server (config the ip adresse of the db server)
 
 
-safe delete for Assos and Users -> no foreign keys
+safe delete for Assos and Users -> no foreign keys/contraintes
 
-
+bug, what if a parameter un the request body is empty -> crash
+same if dates are invalide
 
 ==
 images are supported yet in events management ... :/
