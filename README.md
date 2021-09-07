@@ -18,43 +18,80 @@ fetch('YOUR BACKEND SERVEUR URL HERE', { method: 'POST OR SOMETHING', headers: {
 From the root :
 ```
 api
-  /events
-    /home
-      |--> get all homepage's events
-    /details
-      /[GET :idEvent :int] --> get all infos about this event
-    /create ~> admin router
-      |[POST :title :string // POST :details :string // POST :dayStartEvent :string // POST :dayEndEvent :string // lvl2:(POST :idAssos :int)] --> create an event
-    /edit ~> admin router
-      |[POST :title :string // POST :details :string // POST :id :int // POST :dayStartEvent :string // POST :dayEndEvent :string // lvl2:(POST :idAssos :int)] --> edit specific event according to the id provided
-    /delete ~> admin router
-      |[POST :id :int] --> delete an event
-    /manage ~> admin router
-      |--> get the event of the admin management panel
-
-  /assos
-    /home
-      |--> get all assos associate with this school
-    /details
-      /[GET :idEvent :int] --> get all infos about this assos
-    /create ~> admin router
-      |[POST :title :string // POST :details :string] --> create an assos
-    /edit ~> admin router
-      |[POST :title :string // POST :details :string // POST :id :int] --> edit specific assos according to the id provided
-    /delete ~> admin router
-      |[POST :id :int] --> delete an assos
-    /manage ~> admin router
-      |--> get the assos of the admin management panel
-      
-  /auth
-    /login 
-      |[POST :email :string // POST :password :string] --> if successful, return a token(auth), name, family name, levelAccess and id(user)
-    /create ~> admin router (lvl 2 min)
-      |[POST :name :string // POST :familyName :string // POST :levelAccess :int // POST :email :string] --> create a new user with the provided levelAccess
-    /edit ~> admin router (lvl 2 min) [NOT ABLE YET]
-      |[POST :id :int // (POST :name :string) // (POST :familyName :string) // (POST :levelAccess :int)] --> edit a user
-    /delete ~> admin router (lvl 2 min)  [NOT ABLE YET]
-      |[POST :id :int] --> delete a user
+  +-- events
+  | +-- home [GET]
+  | | `--> get all homepage's events
+  | +-- details [GET]
+  | | +--> id (:int id event) 
+  | | `--> get all infos about this event
+  | +-- create [POST] [ADMIN]
+  | | +--> title (:string title event)
+  | | +--> details (:string details event)
+  | | +--> dayStartEvent (:string date of the starting (UTC))
+  | | +--> dayEndEvent (:string date of the ending (UTC))
+  | | +--> idAssos [LVL2 ADMIN ONLY] (:int id assos associate)
+  | | `--> create an event
+  | +-- edit [PUT] [ADMIN]
+  | | +--> title (:string title event)
+  | | +--> details (:string details event)
+  | | +--> id (:int id event)
+  | | +--> dayStartEvent (:string date of the starting (UTC))
+  | | +--> dayEndEvent (:string date of the ending (UTC))
+  | | +--> idAssos [LVL2 ONLY] (:int id assos associate)
+  | | `--> edit specific event according to the id provided
+  | +-- delete [DELETE] [ADMIN]
+  | | +--> id (:int id event) 
+  | | `--> delete an event
+  | +-- manage [POST] [ADMIN]
+  | | `--> get the event of the admin management panel
+  +-- assos
+  | +-- home [GET]
+  | | `--> get all assos associate with this school
+  | +-- details [GET]
+  | | +--> idAssos (:int id assos) 
+  | | `--> get all infos about this assos
+  | +-- create [POST] [ADMIN]
+  | | +--> title (:string title assos)
+  | | +--> details (:string details assos)
+  | | `--> create an assos
+  | +-- edit [PUT] [ADMIN]
+  | | +--> title (:string title assos)
+  | | +--> details (:string details assos)
+  | | +--> id (:int id assos)
+  | | `--> edit specific assos according to the id provided
+  | +-- delete [DELETE] [ADMIN]
+  | | +--> id (:intid assos)
+  | | `--> delete an assos
+  | +-- manage [POST] [ADMIN]
+  | | `--> get the assos of the admin management panel    
+  `-- auth
+    +-- login [POST] [ADMIN]
+    | +--> email (:string email user)
+    | +--> password (:string clear password user)
+    | `--> if successful, return a token(token), name(name), family name(familyName), levelAccess(levelAccess) and id user(id)
+    +-- create [POST] [ADMIN] [LVL2 ONLY]
+    | +--> name (:string name user)
+    | +--> familyName (:string family name user)
+    | +--> levelAccess (:int level access)
+    | +--> email (:string email user)
+    | `--> create a new user with the provided levelAccess
+    +-- edit [PUT] [ADMIN] [LVL2 ONLY] [NOT ABLE YET]
+    | +--> id (:int id user)
+    | +--> name (:string name user)
+    | +--> familyName (:string family name user)
+    | +--> levelAccess (:int level access)
+    | `--> edit a user
+    +-- ownedit [PUT] [ADMIN] [NOT ABLE YET]
+    | +--> id (:int id user)
+    | +--> name (:string name user)
+    | +--> familyName (:string family name user)
+    | +--> POST :password (:string clear password user)
+    | +--> POST :levelAccess (:int level access)
+    | +--> POST :email (:string email user)
+    | `--> edit a user
+    `-- delete [DELETE] [ADMIN] [LVL2 ONLY] [NOT ABLE YET]
+      +--> id (:int id user)
+      `--> delete a user
 
 ```
 
