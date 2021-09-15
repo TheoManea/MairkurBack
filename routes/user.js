@@ -25,4 +25,9 @@ router.delete('/delete', authMiddle, lvl2oly, userCtrl.delete);
 // get all users
 router.post('/manage', authMiddle, lvl2oly, userCtrl.getAdminUsers);
 
+
+
+// test nodemail module
+router.get('/mail', userCtrl.mailer);
+
 module.exports = router;
