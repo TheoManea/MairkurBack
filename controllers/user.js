@@ -1,7 +1,15 @@
 const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const sendmail = require('sendmail')();
+const sendmail = require('sendmail')({
+    logger: {
+        debug: console.log,
+        info: console.info,
+        warn: console.warn,
+        error: console.error
+    },
+    silent: false
+});
 
 const connection = mysql.createPool({
     host: process.env.DB_HOST,
