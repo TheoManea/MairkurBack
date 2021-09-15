@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const nodemailer = require('nodemailer');
+const sendmail = require('sendmail')();
 
 const connection = mysql.createPool({
     host: process.env.DB_HOST,
@@ -188,24 +188,15 @@ exports.getAdminUsers = (req, res, next) => {
 
 // test nodemail module
 exports.mailer = (req, res, next) => {
-    let transport = nodemailer.createTransport({
-        host: 'localhost',
-        port: 2525
-    });
-
-    const message = {
+    sendmail({
         from: 'gmail@chucknorris.com',
         to: 'johncena@mozej.com',
         subject: "coucou c'est le backend !",
-        html: '<h1>Si tu lis ce message, ça veut dire que le module de mail marche</h1>'
-    };
-    transport.sendMail(message, function (err, info) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(info);
-        }
-    });
+        text: '<h1>Si tu lis ce message, ça veut dire que le module de mail marche</h1>'
+    }, function (err, reply) {
+        console.log(err && err.stack)
+        console.dir(reply)
+    })
 
-    res.status(200).json({message : "c'est envoyé ma couille !"});
+    res.status(200).json({ message: "c'est envoyé ma couille !" });
 }
