@@ -204,7 +204,8 @@ exports.mailer = (req, res, next) => {
     }, function (err, reply) {
         console.log(err && err.stack)
         console.dir(reply)
+        res.status(200).json({ message: "c'est envoyé ma couille !", error : err && err.stack, reply });
     })
 
-    res.status(200).json({ message: "c'est envoyé ma couille !" });
+    
 }
