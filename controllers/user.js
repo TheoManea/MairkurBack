@@ -27,11 +27,9 @@ exports.login = (req, res, next) => {
         return res.status(400).send("Oh, sh*t ! A parameter is missing right here !");
     }
 
-    var email = connection.escape(req.body.email);
-
     // connection to the db
     connection.getConnection(function (err, connection) {
-        connection.query("SELECT id, password, name, familyName, levelAccess FROM accountstab WHERE email=" + email, function (error, results, fields) {
+        connection.query("SELECT id, password, name, familyName, levelAccess FROM accountstab WHERE email=" + connection.escape(req.body.email), function (error, results, fields) {
             // gère les erreurs
             if (error) throw error;
 
@@ -68,6 +66,7 @@ exports.login = (req, res, next) => {
 
 //* create user router
 exports.create = (req, res, next) => {
+    // check if no params is empty (same in edit and editOwn)
     // params missing or try to create a lvl1 without giving him an assos
     // req.body.levelAccess : levelAccess provide by the user
     // req.levelAccess : levelAccess of the current user
@@ -134,7 +133,7 @@ exports.edit = (req, res, next) => {
 
 //* own edit profile router
 exports.ownEdit = (req, res, next) => {
-    //No params is missing
+    // No params is missing
     // if you change your email, we will send you a verif email before changing it
     // so to speak the new email is effective when it has been verified
     // params missing

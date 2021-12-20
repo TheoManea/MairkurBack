@@ -89,12 +89,10 @@ api
     | +--> levelAccess (:int level access)
     | `--> edit a user
     +-- ownedit [PUT] [ADMIN] [NOT ABLE YET]
-    | +--> id (:int id user)
     | +--> name (:string name user)
     | +--> familyName (:string family name user)
-    | +--> POST :password (:string clear password user)
-    | +--> POST :levelAccess (:int level access)
-    | +--> POST :email (:string email user)
+    | +--> password (:string clear password user)
+    | +--> email (:string email user)
     | `--> edit a user
     `-- delete [DELETE] [ADMIN] [LVL2 ONLY] [NOT ABLE YET]
       +--> id (:int id user)
@@ -109,8 +107,8 @@ Vocabulary :
 - idAssos is the id of a specitif assos
 
 ## Admin routers
-If you want to access to the admin routers, you have yo get login in the auth router.
-The latter will give you a token. Just pass this token through the headers (as the first example), and add userId parameter in the body.
+If you want to access to the admin routers, you have to get login in the auth router.
+The latter will give you a token. Just pass this token through the headers (as the first example above), and add the userId parameter in the body.
 
 
 ## Exemples
